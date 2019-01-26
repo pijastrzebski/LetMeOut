@@ -19,10 +19,16 @@ void UOpenRedDoor::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	UE_LOG(LogTemp, Display, TEXT("The red door is closed\n"));
+	UE_LOG(LogTemp, Display, TEXT("The Red Door is closed\n"));
 
-	FRotator rotator(0.f, 0.f, 0.f);
-	GetOwner()->SetActorRotation(rotator);	
+}
+
+void UOpenRedDoor::OpenDoor()
+{
+	UE_LOG(LogTemp, Display, TEXT("The Red Door is open\n"));
+
+	FRotator rotator(0.f, 0.f, 90.f);
+	GetOwner()->SetActorRotation(rotator);
 }
 
 
@@ -31,6 +37,10 @@ void UOpenRedDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	// Poll the Trigger Volume
+	if (m_pressurePlate->IsOverlappingActor(m_actorThatOpens))
+	{
+		OpenDoor();
+	}
 }
 
