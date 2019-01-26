@@ -19,7 +19,7 @@ void UOpenRedDoor::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	UE_LOG(LogTemp, Display, TEXT("The Red Door is closed\n"));
+	m_actorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 
 }
 
