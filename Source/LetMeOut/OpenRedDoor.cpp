@@ -27,7 +27,7 @@ void UOpenRedDoor::OpenDoor()
 {
 	UE_LOG(LogTemp, Display, TEXT("The Red Door is open\n"));
 
-	FRotator rotator(0.f, 0.f, 90.f);
+	FRotator rotator(0.f, -66.f, 0.f);
 	GetOwner()->SetActorRotation(rotator);
 }
 
