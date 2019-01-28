@@ -19,6 +19,7 @@ void UOpenRedDoor::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	m_doorOwner = GetOwner();
 	m_actorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 
 }
@@ -27,8 +28,14 @@ void UOpenRedDoor::OpenDoor()
 {
 	UE_LOG(LogTemp, Display, TEXT("The Red Door is open\n"));
 
-	FRotator rotator(0.f, -66.f, 0.f);
-	GetOwner()->SetActorRotation(rotator);
+	GetOwner()->SetActorRotation({ 0.f, m_openAngle, 0.f });
+}
+
+void UOpenRedDoor::CloseDoor()
+{
+	UE_LOG(LogTemp, Display, TEXT("The Red Door is closed\n"));
+
+	GetOwner()->SetActorRotation({ 0.f, 0.f, 0.f });
 }
 
 
@@ -41,6 +48,12 @@ void UOpenRedDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 	if (m_pressurePlate->IsOverlappingActor(m_actorThatOpens))
 	{
 		OpenDoor();
+		m_lastDoorOpenTime = GetWorld()->GetTimeSeconds();
+	}
+
+	if (GetWorld()->GetTimeSeconds() - m_lastDoorOpenTime > m_doorCloseDelay)
+	{
+		CloseDoor();
 	}
 }
 
